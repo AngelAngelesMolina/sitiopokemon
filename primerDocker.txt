@@ -1,0 +1,18 @@
+#Img que utilizaremos
+FROM node:16-alpine 
+#ejecutamos comando mkdir si es que no existe se crea
+RUN mkdir -p /app 
+#establemos el directorio de trabajo
+WORKDIR /app
+#copiamos a /app
+COPY package.json /app
+#instalamos dependendias
+RUN yarn install
+#copiamos todo y lo pegamos en el directorio /app (TODO: ignora lo que esta en dockerignore) en este punto ya estan los node_modules en app
+COPY . /app
+#ejecutamos este comando para crear la carpeta de produccion 
+RUN yarn build
+#exponemos el puerto
+EXPOSE 3000
+#indicamos los comandos a ejecutar
+CMD [ "yarn", "start" ]
